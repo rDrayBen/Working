@@ -13,7 +13,7 @@ Client.init(process.env.COINBASE_API_KEY);
 router.use(express.json());
 
 router.post('/create', async (req, res) => {
-    const { name, description, amount, currency } = req.body;
+    const { name, description, amount, currency, username } = req.body;
     try {
         const chargeData = {
             name: name,
@@ -23,7 +23,7 @@ router.post('/create', async (req, res) => {
                 amount: amount,
                 currency: currency
             }, metadata: {
-                user: 'asaprocky',
+                user: username,
             },
         };
 

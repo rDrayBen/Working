@@ -55,49 +55,21 @@ router.post('/', (req, res) => {
         }
 
         const event = Webhook.verifyEventBody(req.rawBody, signature, webhookSecret);
+        const charge = event.data;
+        const user = charge.metadata.user;
+        const status = charge.status;
         if (event.type === 'charge:confirmed') {
-            const charge = event.data;
-            const userId = charge.metadata.user_id;
-            const status = charge.status;
-
-            console.log(`Payment for user ${userId} has status: ${status}`);
-
-
+            console.log(`Payment for user ${user} has status: ${status}`);
         } else if (event.type === 'charge:failed') {
-            const charge = event.data;
-            const userId = charge.metadata.user_id;
-            const status = charge.status;
-
-            console.log(`Payment for user ${userId} failed with status: ${status}`);
-
+            console.log(`Payment for user ${user} failed with status: ${status}`);
         } else if (event.type === 'charge:pending') {
-            const charge = event.data;
-            const userId = charge.metadata.user_id;
-            const status = charge.status;
-
-            console.log(`Payment for user ${userId} with status: ${status}`);
-
+            console.log(`Payment for user ${user} with status: ${status}`);
         } else if (event.type === 'charge:expired') {
-            const charge = event.data;
-            const userId = charge.metadata.user_id;
-            const status = charge.status;
-
-            console.log(`Payment for user ${userId} failed with status: ${status}`);
-
+            console.log(`Payment for user ${user} failed with status: ${status}`);
         } else if (event.type === 'charge:canceled') {
-            const charge = event.data;
-            const userId = charge.metadata.user_id;
-            const status = charge.status;
-
-            console.log(`Payment for user ${userId} failed with status: ${status}`);
-
+            console.log(`Payment for user ${user} failed with status: ${status}`);
         } else if (event.type === 'charge:new') {
-            const charge = event.data;
-            const userId = charge.metadata.user_id;
-            const status = charge.status;
-
-            console.log(`Payment for user ${userId} failed with status: ${status}`);
-
+            console.log(`Payment for user ${user} failed with status: ${status}`);
         }
 
         res.status(200).send('Webhook processed successfully');
