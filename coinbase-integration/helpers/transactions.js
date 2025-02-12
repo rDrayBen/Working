@@ -76,7 +76,7 @@ async function updateTransaction(username, transaction_id, update_date, status) 
       RETURNING *;
     `;
 
-    const updateRes = await client.query(updateQuery, [user_id, transaction_id, status, update_date]);
+    const updateRes = await client.query(updateQuery, [user_id, transaction_id, update_date, status]);
 
     await client.query('COMMIT');
 
