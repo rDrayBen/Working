@@ -2,7 +2,7 @@ const express = require('express');
 const { Webhook } = require('coinbase-commerce-node');
 const dotenv = require('dotenv');
 const crypto = require('crypto');
-const { createTransaction } = require('./helpers');
+const { createTransaction } = require('../helpers/transactions');
 
 dotenv.config();
 
