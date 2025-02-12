@@ -84,7 +84,7 @@ router.post('/', async (req, res) => {
             await updateTransaction(user, transaction_id, update_date, status);
             console.log(`Payment for user ${user} failed with status: ${status}`);
         } else if (event.type === 'charge:created') {
-            await createTransaction(user, transaction_date, update_date, amount, currency, payment_method, status, fee);
+            await createTransaction(user, transaction_id, transaction_date, update_date, amount, currency, payment_method, status, fee);
             console.log(`Payment for user ${user} has status: ${status}`);
         }
 

@@ -6,7 +6,7 @@ const pool = new Pool({
   connectionString: DATABASE_URL,
 });
 
-async function createTransaction(username, transaction_date, update_date, amount, currency, payment_method, status, fee) {
+async function createTransaction(username, transaction_id, transaction_date, update_date, amount, currency, payment_method, status, fee) {
   const client = await pool.connect();
   
   try {
@@ -22,13 +22,13 @@ async function createTransaction(username, transaction_date, update_date, amount
     const user_id = userRes.rows[0].id;
 
     const transactionQuery = `
-      INSERT INTO "payment_transactions" (user_id, transaction_date, update_date, amount, currency, payment_method, status, fee)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO "payment_transactions" (user_id, payment_system_id, transaction_date, update_date, amount, currency, payment_method, status, fee)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING *;
     `;
 
     const transactionRes = await client.query(transactionQuery, [
-      user_id, transaction_date, update_date, amount, currency, payment_method, status, fee
+      user_id, transaction_id, transaction_date, update_date, amount, currency, payment_method, status, fee
     ]);
 
     await client.query('COMMIT');
