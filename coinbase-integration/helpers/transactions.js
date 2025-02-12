@@ -28,7 +28,7 @@ async function createTransaction(username, transaction_date, update_date, amount
     `;
 
     const transactionRes = await client.query(transactionQuery, [
-      user_id, transaction_date, amount, currency, payment_method, status, fee
+      user_id, transaction_date, update_date, amount, currency, payment_method, status, fee
     ]);
 
     await client.query('COMMIT');
