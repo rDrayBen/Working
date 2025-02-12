@@ -56,14 +56,14 @@ router.post('/', async (req, res) => {
         }
 
         const event = Webhook.verifyEventBody(req.rawBody, signature, webhookSecret);
-        console.log(`${event}`);
+        console.dir(event, { depth: null });
         const charge = event.data;
         const user = charge.metadata.user;
         const transaction_date = charge.created_at;
-        const amount = 0;
+        const amount = charge.pricing.local.amount;
         const currency = 'USDT';
         const payment_method = 'Coinbase';
-        const fee = 0;
+        const fee = charge.web3_data.network_fee_paid_local;
         const status = event.type;
         
         if (event.type === 'charge:confirmed') {
@@ -76,9 +76,9 @@ router.post('/', async (req, res) => {
             console.log(`Payment for user ${user} failed with status: ${status}`);
         } else if (event.type === 'charge:canceled') {
             console.log(`Payment for user ${user} failed with status: ${status}`);
-        } else if (event.type === 'charge:new') {
-            await createTransaction(user, transaction_date, amount, currency, payment_method, status, fee);
+        } else if (event.type === 'charge:created') {
             console.log(`Payment for user ${user} has status: ${status}`);
+            await createTransaction(user, transaction_date, amount, currency, payment_method, status, fee);
         }
 
         res.status(200).send('Webhook processed successfully');
