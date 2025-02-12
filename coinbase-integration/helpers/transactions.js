@@ -12,7 +12,7 @@ async function createTransaction(username, transaction_date, amount, currency, p
   try {
     await client.query('BEGIN');
 
-    const userQuery = `SELECT id FROM user WHERE username = $1;`;
+    const userQuery = `SELECT "id" FROM "user" WHERE "username" = $1;`;
     const userRes = await client.query(userQuery, [username]);
 
     if (userRes.rows.length === 0) {
@@ -22,7 +22,7 @@ async function createTransaction(username, transaction_date, amount, currency, p
     const user_id = userRes.rows[0].id;
 
     const transactionQuery = `
-      INSERT INTO payment_transactions (user_id, transaction_date, amount, currency, payment_method, status, fee)
+      INSERT INTO "payment_transactions" (user_id, transaction_date, amount, currency, payment_method, status, fee)
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *;
     `;
