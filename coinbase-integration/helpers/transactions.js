@@ -71,7 +71,7 @@ async function updateTransaction(username, transaction_id, update_date, status) 
 
     const updateQuery = `
       UPDATE "payment_transactions"
-      SET "status" = $3, "update_date" = $4
+      SET "update_date" = $3, "status" = $4, 
       WHERE "user_id" = $1 AND "payment_system_id" = $2
       RETURNING *;
     `;
