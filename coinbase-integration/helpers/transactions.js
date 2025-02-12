@@ -53,7 +53,7 @@ async function updateTransaction(username, transaction_id, status, update_date) 
     await client.query('BEGIN');
 
     // Отримуємо user_id за username
-    const userQuery = `SELECT id FROM users WHERE username = $1;`;
+    const userQuery = `SELECT "id" FROM "user" WHERE "username" = $1;`;
     const userRes = await client.query(userQuery, [username]);
 
     if (userRes.rows.length === 0) {
@@ -62,7 +62,7 @@ async function updateTransaction(username, transaction_id, status, update_date) 
 
     const user_id = userRes.rows[0].id;
 
-    const transactionQuery = `SELECT * FROM payment_transactions WHERE payment_system_id = $1 AND user_id = $2;`;
+    const transactionQuery = `SELECT * FROM "payment_transactions" WHERE "payment_system_id" = $1 AND "user_id" = $2;`;
     const transactionRes = await client.query(transactionQuery, [transaction_id, user_id]);
 
     if (transactionRes.rows.length === 0) {
@@ -70,9 +70,9 @@ async function updateTransaction(username, transaction_id, status, update_date) 
     }
 
     const updateQuery = `
-      UPDATE payment_transactions
-      SET status = $3, update_date = $4
-      WHERE user_id = $1 AND payment_system_id = $2
+      UPDATE "payment_transactions"
+      SET "status" = $3, "update_date" = $4
+      WHERE "user_id" = $1 AND "payment_system_id" = $2
       RETURNING *;
     `;
 
