@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const DATABASE_URL = 'postgresql://dbms_admin:asap123@2.tcp.eu.ngrok.io:15915/AH_DBV1';
+const DATABASE_URL = 'postgresql://dbms_admin:asap123@4.tcp.eu.ngrok.io:10695/AH_DBV1';
 
 const pool = new Pool({
   connectionString: DATABASE_URL,
