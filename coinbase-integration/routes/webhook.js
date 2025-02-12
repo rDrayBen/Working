@@ -2,7 +2,7 @@ const express = require('express');
 const { Webhook } = require('coinbase-commerce-node');
 const dotenv = require('dotenv');
 const crypto = require('crypto');
-const { createTransaction } = require('../helpers/transactions');
+const { createTransaction, updateTransaction } = require('../helpers/transactions');
 
 dotenv.config();
 
@@ -59,14 +59,17 @@ router.post('/', async (req, res) => {
         console.dir(event, { depth: null });
         const charge = event.data;
         const user = charge.metadata.user;
+        const transaction_id = charge.id;
         const transaction_date = charge.created_at;
+        const update_date = charge.timeline.at(-1).time;
         const amount = charge.pricing.local.amount;
-        const currency = 'USDT';
+        const currency = charge.pricing.local.currency;
         const payment_method = charge.name;
         const fee = charge.web3_data.network_fee_paid_local;
         const status = event.type;
         
         if (event.type === 'charge:confirmed') {
+            await updateTransaction(user, transaction_id, update_date, status);
             console.log(`Payment for user ${user} has status: ${status}`);
         } else if (event.type === 'charge:failed') {
             console.log(`Payment for user ${user} failed with status: ${status}`);
@@ -78,7 +81,7 @@ router.post('/', async (req, res) => {
             console.log(`Payment for user ${user} failed with status: ${status}`);
         } else if (event.type === 'charge:created') {
             console.log(`Payment for user ${user} has status: ${status}`);
-            await createTransaction(user, transaction_date, amount, currency, payment_method, status, fee);
+            await createTransaction(user, transaction_date, update_date, amount, currency, payment_method, status, fee);
         }
 
         res.status(200).send('Webhook processed successfully');
