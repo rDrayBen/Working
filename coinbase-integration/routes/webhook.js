@@ -56,6 +56,7 @@ router.post('/', async (req, res) => {
         }
 
         const event = Webhook.verifyEventBody(req.rawBody, signature, webhookSecret);
+        console.log(`${event}`);
         const charge = event.data;
         const user = charge.metadata.user;
         const transaction_date = charge.created_at;
@@ -63,7 +64,7 @@ router.post('/', async (req, res) => {
         const currency = 'USDT';
         const payment_method = 'Coinbase';
         const fee = 0;
-        const status = charge.status;
+        const status = event.type;
         
         if (event.type === 'charge:confirmed') {
             console.log(`Payment for user ${user} has status: ${status}`);
