@@ -62,7 +62,7 @@ router.post('/', async (req, res) => {
         const transaction_date = charge.created_at;
         const amount = charge.pricing.local.amount;
         const currency = 'USDT';
-        const payment_method = 'Coinbase';
+        const payment_method = charge.name;
         const fee = charge.web3_data.network_fee_paid_local;
         const status = event.type;
         
