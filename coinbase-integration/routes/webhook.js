@@ -72,12 +72,16 @@ router.post('/', async (req, res) => {
             await updateTransaction(user, transaction_id, update_date, status);
             console.log(`Payment for user ${user} has status: ${status}`);
         } else if (event.type === 'charge:failed') {
+            await updateTransaction(user, transaction_id, update_date, status);
             console.log(`Payment for user ${user} failed with status: ${status}`);
         } else if (event.type === 'charge:pending') {
+            await updateTransaction(user, transaction_id, update_date, status);
             console.log(`Payment for user ${user} with status: ${status}`);
         } else if (event.type === 'charge:expired') {
+            await updateTransaction(user, transaction_id, update_date, status);
             console.log(`Payment for user ${user} failed with status: ${status}`);
         } else if (event.type === 'charge:canceled') {
+            await updateTransaction(user, transaction_id, update_date, status);
             console.log(`Payment for user ${user} failed with status: ${status}`);
         } else if (event.type === 'charge:created') {
             console.log(`Payment for user ${user} has status: ${status}`);
