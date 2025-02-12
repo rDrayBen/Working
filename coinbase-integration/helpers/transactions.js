@@ -46,7 +46,7 @@ async function createTransaction(username, transaction_id, transaction_date, upd
 }
 
 
-async function updateTransaction(username, transaction_id, status, update_date) {
+async function updateTransaction(username, transaction_id, update_date, status) {
   const client = await pool.connect();
   
   try {
